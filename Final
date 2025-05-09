@@ -1,0 +1,88 @@
+from docx import Document
+from docx.shared import Pt, Inches
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.enum.style import WD_STYLE_TYPE
+
+# Create a new Word document
+doc = Document()
+
+# Set default font style and size
+style = doc.styles['Normal']
+font = style.font
+font.name = 'Times New Roman'
+font.size = Pt(12)
+paragraph_format = style.paragraph_format
+paragraph_format.line_spacing = 1.5
+
+# Set document margins (≥2 cm = 0.79 inches)
+sections = doc.sections
+for section in sections:
+    section.top_margin = Inches(0.79)
+    section.bottom_margin = Inches(0.79)
+    section.left_margin = Inches(0.79)
+    section.right_margin = Inches(0.79)
+
+# Helper function to add headings
+def add_heading(text, level):
+    doc.add_heading(text, level=level)
+
+# Helper function to add a paragraph
+def add_paragraph(text, bold=False, italic=False):
+    paragraph = doc.add_paragraph()
+    run = paragraph.add_run(text)
+    run.bold = bold
+    run.italic = italic
+    return paragraph
+
+# Start writing the content
+add_heading("AI-Student Performance and Fraud Detection System", 0)
+add_paragraph("Team Member: Aamira Grimes")
+add_paragraph("Date: May 8, 2025")
+
+add_heading("Abstract", 1)
+add_paragraph(
+    "This project introduces an AI-powered system for predicting student performance and detecting academic fraud using machine learning models built in Python. "
+    "Current academic integrity tools, such as traditional plagiarism checkers, often lack adaptability and fail to account for nuanced academic behaviors or patterns in grading. "
+    "This project bridges that gap by leveraging supervised learning algorithms and natural language processing (NLP) techniques to identify academic trends and anomalies. "
+    "The system uses student performance data, coursework submissions, and grading records to flag at-risk students, detect possible cases of plagiarism, and highlight grading inconsistencies. "
+    "The model is deployed via a dashboard interface for use by faculty and administrators, enabling real-time insights and interventions. "
+    "This approach aims to encourage academic success, integrity, and fairness through a data-driven, AI-based educational tool.\n\n"
+    "Keywords: AI in education, academic fraud detection, student performance prediction, machine learning, NLP"
+)
+
+# Sections of the document
+sections = [
+    ("Introduction & Motivation", 
+     "The rise of online education and the widespread use of generative AI tools have increased concerns about academic dishonesty and fair assessment..."),
+    ("Related Work", 
+     "Existing solutions include tools such as Turnitin, ZeroGPT, and Grammarly..."),
+    ("Data", 
+     "Source: Simulated or anonymized academic data...\nSize & Features: 500+ student records...\nPreprocessing: Normalized numeric values..."),
+    ("Method & Implementation", 
+     "Programming Language & Libraries: Python, Pandas, NumPy, Scikit-learn...\nModels Used: Linear Regression, Random Forest Classifier...\nWorkflow Diagram: [Described in content]"),
+    ("Experiments & Results", 
+     "Metrics Used: Accuracy, Precision, Recall, RMSE...\nVisualizations: Heatmaps, Time-series plots...\nStatistical Tests: t-tests, ANOVA..."),
+    ("Three Contributions", 
+     "Scope Expansion: Integrated prediction and fraud detection system...\nDataset Design: Balanced academic data with textual analysis...\nModel Innovation: Combined ML and NLP models..."),
+    ("Limitations & Future Work", 
+     "Limitations: Synthetic data, labeling subjectivity...\nFuture Work: Real dataset, transformer models, feedback loop..."),
+    ("Conclusion", 
+     "This project demonstrates the feasibility and potential of using AI to improve student performance tracking and academic integrity monitoring..."),
+    ("References", 
+     "McLaughlin, K. (2024, February 26)...\nShi, W., et al. (2020)...\nStreamlit. (n.d.)...\nTurnitin. (n.d.)..."),
+    ("Appendices", 
+     "Appendix A: GitHub Code Repository Link – [Insert here]\nAppendix B: Additional Plots & Figures\nAppendix C: Streamlit Dashboard Screenshots\nAppendix D: User Guide")
+]
+
+# Add each section to the document
+for title, content in sections:
+    add_heading(title, 1)
+    add_paragraph(content)
+
+# Save the document
+doc_path = "/mnt/data/AI_Student_Performance_Fraud_Detection_Report.docx"
+doc.save(doc_path)
+
+doc_path
